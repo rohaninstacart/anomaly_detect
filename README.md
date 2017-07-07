@@ -1,8 +1,23 @@
-# AnomlalyDetect
+# AnomalyDetect
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/anomlaly_detect`. To experiment with that code, run `bin/console` for an interactive prompt.
+Anomaly Detection functions - PostgreSQL only at the moment
 
-TODO: Delete this and the text above, and describe your gem
+Can be used in ActiveRecord or directly in SQL.
+
+Supports 3 types of anomaly detection:
+
+- static thresholds
+- percentage of mean
+- z-score
+
+```ruby
+Order.anomaly_detect_static('created_at', 'created_at', '2017-01-01', '2017-07-07', 'day', 1);
+```
+
+Can be directly used in SQL
+```sql
+select * from anom_detect_static('orders', 'created_at', 'created_at', '2017-01-01', '2017-07-07', 'day', 1);
+```
 
 ## Installation
 
@@ -22,7 +37,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Create a migration to add the anomaly detection functions to the database.
+
+```ruby
+def up
+  AnomalyDetection.create_function
+end
+
+def down
+  AnomalyDetection.drop_function
+end
+```
 
 ## Development
 
@@ -38,4 +63,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
